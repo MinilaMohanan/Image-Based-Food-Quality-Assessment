@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Plant Monitoring System</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h2 >Result Is Given Below</h2>
+            <div id="prediction-result" class="result center"></div>
+            <div id="prediction-image" class="result center">
+                <h3>Uploaded Image:</h3>
+                <img id="uploaded-image" src="" alt="Uploaded Image">
+            </div>
+        </div>
+        <h3> Suggestions</h3>
+        <h2>Apples</h2>
+        <ul>
+            <li>Appearance — red apples are preferred over green or yellow apples by most. 
+                Good red color means the fruit has reached proper maturity and will eat well.
+                Yellow and green apples, for example Golden Delicious and Granny Smith respectively, 
+                are preferred by some for their particular flavor and texture.</li>
+            <li>Flavor — some people like tart apples (McIntosh), some like sweet apples (Gala),
+                and some like tart-sweet apples (Honeycrisp). It’s a matter of personal preference,
+                but apples must reach the proper maturity to achieve their best flavor, whether tart,
+                sweet, or tart-sweet. In general, apples — even tart ones — get sweeter the longer
+                they are allowed to mature on the tree before being harvested. 
+                Some apples get sweeter during cold storage.</li> 
+            <li>Texture — most consumers want a crisp, crunchy apple. Soft, mushy apples are shunned. 
+                Granny Smith is an example of an apple that has gained widespread consumer preference
+                because it is almost always crispy-crunchy (albeit tart).
+                Softer-flesh apples such as McIntosh need careful storage and handling to remain 
+                minimally crisp to the bite.</li>  
+            <li>Arotten apple spoils the whole barrel. That’s not just an old adage.
+                 It’s a scientific fact. </li>          
+        </ul>
+        <script>
+            function displayPrediction() {
+                var prediction = JSON.parse(sessionStorage.getItem('prediction'));
+                //console.log('Stored prediction:', sessionStorage.getItem('prediction'));
+                //console.log('Received response:', prediction);
+
+                if (!prediction) {
+                    // If there is no prediction, redirect back to the first page
+                    window.location.href = '5-1st.html';
+                    return;
+                }
+
+                // Print the prediction object to the console
+                //console.log('Prediction object:', prediction);
+
+                var resultDiv = document.getElementById('prediction-result');
+                var imageDiv = document.getElementById('prediction-image');
+
+                // Clear previous results
+                resultDiv.innerHTML = '';
+                imageDiv.innerHTML = '';
+
+                // Display the heading "predicted disease"
+                var Header = document.createElement('h3');
+                Header.textContent = 'Food:';
+                resultDiv.appendChild(Header);
+                //Display the prediction
+                var Name = document.createElement('p');
+                Name.textContent = prediction.food;
+                resultDiv.appendChild(Name);
+
+                // Verify Base64 Image Data
+                var base64ImageData = prediction.image;
+                var image = new Image();
+                image.src = 'data:image/jpeg;base64,' + base64ImageData;
+                image.style.maxWidth = '300px';
+                image.style.marginTop = '20px';
+                imageDiv.appendChild(image);
+                //console.log('Image source:', image.src); // Log the image source
+            }
+            // Call the displayPrediction() function when the page loads
+            window.onload = displayPrediction;
+        </script>
+    </body>
+</html>
+
